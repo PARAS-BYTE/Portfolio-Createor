@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume & LinkedIn Collector</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Easily customizable color theme */
+            --primary: #7c3aed;
+            --primary-dark: #6d28d9;
+            --secondary: #10b981;
+            --secondary-dark: #059669;
+            --accent: #f59e0b;
+            --dark: #1e293b;
+            --darker: #0f172a;
+            --light: #f8fafc;
+            --lighter: #ffffff;
+            --gray: #94a3b8;
+
+            /* Component colors */
+            --bg: var(--darker);
+            --card-bg: rgba(15, 23, 42, 0.7);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text: var(--light);
+            --text-secondary: var(--gray);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .input-glow:focus {
+            box-shadow: 0 0 0 2px var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Simple fade-in animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .animate-delay-1 {
+            animation-delay: 0.1s;
+        }
+
+        .animate-delay-2 {
+            animation-delay: 0.2s;
+        }
+
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .file-upload {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-upload-input {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-upload-label {
+            display: block;
+            padding: 1.5rem;
+            border: 2px dashed var(--gray);
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .file-upload-label:hover {
+            border-color: var(--primary);
+            background-color: rgba(124, 58, 237, 0.1);
+        }
+
+        .file-upload-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .file-name {
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-2xl mx-auto">
+        <div class="card p-8 mb-8 animate-in">
+            <h1 class="text-3xl font-bold mb-2 text-center gradient-text">
+                Resume & LinkedIn Collector
+            </h1>
+            <p class="text-center text-gray-400 mb-8">
+                Submit your resume and LinkedIn profile to continue
+            </p>
+
+            <form id="resumeForm" class="space-y-6">
+                <!-- Basic Information Section -->
+                <div class="card p-6 animate-in animate-delay-1">
+                    <h2 class="text-xl font-semibold mb-4 flex items-center">
+                        <i class="fas fa-user-circle mr-2" style="color: var(--primary)"></i>
+                        Basic Information
+                    </h2>
+
+                    <div class="grid grid-cols-1 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Full Name</label>
+                            <input type="text" id="name" name="name" required
+                                class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Email Address</label>
+                            <input type="email" id="email" name="email" placeholder="hello@example.com" required
+                                class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resume Upload Section -->
+                <div class="card p-6 animate-in animate-delay-1">
+                    <h2 class="text-xl font-semibold mb-4 flex items-center">
+                        <i class="fas fa-file-alt mr-2" style="color: var(--secondary)"></i>
+                        Resume Upload
+                    </h2>
+
+                    <div class="file-upload">
+                        <input type="file" id="resumeFile" name="resumeFile" class="file-upload-input"
+                            accept=".pdf,.doc,.docx" required>
+                        <label for="resumeFile" class="file-upload-label">
+                            <div class="file-upload-icon">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <div>Click to upload your resume</div>
+                            <div class="text-sm text-gray-400">(PDF or DOCX format)</div>
+                            <div id="fileName" class="file-name">No file chosen</div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- LinkedIn Profile Section -->
+                <div class="card p-6 animate-in animate-delay-2">
+                    <h2 class="text-xl font-semibold mb-4 flex items-center">
+                        <i class="fab fa-linkedin mr-2" style="color: #0a66c2;"></i>
+                        LinkedIn Profile
+                    </h2>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-1">LinkedIn Profile URL</label>
+                        <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/username"
+                            required
+                            class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow">
+                    </div>
+                </div>
+
+                <!-- Buttons Section -->
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <button type="submit" class="btn-primary py-3 px-6 rounded-lg font-medium flex-1">
+                        <i class="fas fa-paper-plane mr-2"></i> Submit & Auto Process
+                    </button>
+                    <button type="button" id="manualBtn" class="btn-secondary py-3 px-6 rounded-lg font-medium flex-1">
+                        <i class="fas fa-edit mr-2"></i> Continue with Manual
+                    </button>
+                </div>
+
+                <div class="flex justify-center">
+                    <button type="button" id="resetBtn"
+                        class="py-2 px-4 rounded-lg font-medium bg-slate-800 hover:bg-slate-700 transition text-sm">
+                        <i class="fas fa-redo mr-2"></i> Reset Form
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="last"
+        style="width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; position: fixed; top: 0px; left :0px; background-color : black; display: none;">
+        <img src="load-35_256.gif" alt="">
+        <p>Just Getting Redy Your Portfolio</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // File upload display
+            const resumeFileInput = document.getElementById('resumeFile');
+            const fileNameDisplay = document.getElementById('fileName');
+
+            resumeFileInput.addEventListener('change', function () {
+                if (this.files && this.files.length > 0) {
+                    fileNameDisplay.textContent = this.files[0].name;
+                } else {
+                    fileNameDisplay.textContent = 'No file chosen';
+                }
+            });
+
+            // Form submission for auto process
+            const resumeForm = document.getElementById('resumeForm');
+
+            resumeForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                document.querySelector(".last").style.display = "flex"
+                // Create form data object
+                const formData = new FormData();
+                formData.append('name', document.getElementById('name').value);
+                formData.append('email', document.getElementById('email').value);
+                formData.append('linkedin', document.getElementById('linkedin').value);
+
+                setTimeout(() => {
+                    window.location="portfolio_1.html"
+                }, 5000);
+                // Add file if selected
+                if (resumeFileInput.files.length > 0) {
+                    formData.append('resume', resumeFileInput.files[0]);
+                }
+
+                //     // Here you would typically send the formData to your server
+                //     // For demo purposes, we'll just log it to the console
+                //     console.log("Form Data (Auto Process):", {
+                //         name: formData.get('name'),
+                //         email: formData.get('email'),
+                //         linkedin: formData.get('linkedin'),
+                //         resumeFile: resumeFileInput.files[0] ? resumeFileInput.files[0].name : 'No file'
+                //     });
+
+
+                // alert("Your information has been submitted for automatic processing!");
+            });
+
+            // Manual process button
+            document.getElementById('manualBtn').addEventListener('click', function () {
+                // // Validate required fields
+                // const name = document.getElementById('name').value;
+                // const email = document.getElementById('email').value;
+                // const linkedin = document.getElementById('linkedin').value;
+                // const resumeFile = resumeFileInput.files[0];
+
+                // if (!name || !email || !linkedin || !resumeFile) {
+                //     alert("Please fill in all required fields before continuing.");
+                //     return;
+                // }
+
+                // // Create form data object
+                // const formData = new FormData();
+                // formData.append('name', name);
+                // formData.append('email', email);
+                // formData.append('linkedin', linkedin);
+                // formData.append('resume', resumeFile);
+
+                // console.log("Form Data (Manual Process):", {
+                //     name: formData.get('name'),
+                //     email: formData.get('email'),
+                //     linkedin: formData.get('linkedin'),
+                //     resumeFile: resumeFile.name
+                // });
+                // window.open("manual_data_form.html")
+                window.location.href = 'manual_data_form.html'
+                // alert("Redirecting to manual entry form...");
+                // In a real application, you would redirect to the manual form here
+                // window.location.href = 'manual-form.html';
+            });
+
+            // Reset form
+            document.getElementById('resetBtn').addEventListener('click', function () {
+                if (confirm('Are you sure you want to reset the form? All your data will be lost.')) {
+                    resumeForm.reset();
+                    fileNameDisplay.textContent = 'No file chosen';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
