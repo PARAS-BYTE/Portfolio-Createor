@@ -429,13 +429,29 @@
                 padding: 4rem 0;
             }
         }
+        .publ{
+            position :fixed;
+            right: 20px;
+            bottom: 20px;
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: 1px none;
+            font-weight: 900;
+            background-color: var(--light-color);
+        }
     </style>
 </head>
 <body>
+    <a href="pricing.html">
+
+        <button class="publ" style="  position :fixed; right: 20px;bottom: 20px;padding: 10px 20px;border-radius: 6px;border: 1px none;font-weight: 900;background-color: var(--light-color)">
+            
+            Publish Now</button>
+        </a>
     <!-- Navigation -->
     <nav>
         <div class="container nav-container">
-            <a href="#" class="logo">JD</a>
+            <a href="#" class="logo">Sh</a>
             <ul class="nav-links">
                 <li><a href="#about"><span>01.</span> About</a></li>
                 <li><a href="#projects"><span>02.</span> Projects</a></li>
@@ -450,7 +466,7 @@
         <div class="container">
             <div class="hero-content">
                 <p class="hero-subtitle">Hi, my name is</p>
-                <h1 class="hero-title">John Doe.</h1>
+                <h1 class="hero-title" id="name">Sahil.</h1>
                 <h2 class="hero-subtitle-large">I build things for the web.</h2>
                 <p class="hero-description">
                     I'm a software engineer specializing in building exceptional digital experiences. Currently, I'm focused on building accessible, human-centered products at <a href="#">Tech Company</a>.
@@ -469,7 +485,7 @@
             <div class="about-content">
                 <div class="about-text">
                     <p>
-                        Hello! My name is John and I enjoy creating things that live on the internet. My interest in web development started back in 2012 when I decided to try editing custom Tumblr themes.
+                        Hello! My name is Sahil and I enjoy creating things that live on the internet. My interest in web development started back in 2012 when I decided to try editing custom Tumblr themes.
                     </p>
                     <p>
                         Fast-forward to today, and I've had the privilege of working at an advertising agency, a start-up, and a huge corporation. My main focus these days is building accessible, inclusive products and digital experiences.
@@ -488,7 +504,7 @@
                 </div>
                 <div class="about-image">
                     <div class="image-wrapper">
-                        <img src="https://via.placeholder.com/300" alt="Profile Picture">
+                        <img src="https://via.placeholder.com/300" alt="Profile Picture" id="profile">
                     </div>
                 </div>
             </div>
@@ -595,8 +611,37 @@
                 <a href="#" class="social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
                 <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
             </div>
-            <p>Designed & Built by John Doe</p>
+            <p>Designed & Built by Suryansh</p>
         </div>
     </footer>
+    <script>
+        const API_URL = "https://script.google.com/macros/s/AKfycbzfIOfDTkivsIHWBvQQfg6RJiziyFmWy7Psr1fqq3N4evUBAa8a31hxIYl6_PpI4_nI/exec";
+
+
+function getData() {
+    fetch(`${API_URL}?action=getData`)
+    .then(response => response.json())
+    .then(data => {
+        const tableBody = document.getElementById("dataTable");
+        tableBody.innerHTML = "";
+        let d1=document.querySelector("#name");
+        let d2=document.querySelector("#profile");
+        if (data.status === "success" && data.data.length > 0) {
+            data.data.forEach(row => {
+                let tr = document.createElement("tr");
+                d1.innerHTML=row.name
+                tr.innerHTML = `<td>${row.name}</td>
+                            
+                                <td>${row.email}</d2=row.email;
+                                <td><img src="${row.imageUrl}" width="50"></td>`;
+                tableBody.appendChild(tr);
+            });
+        } else {
+            tableBody.innerHTML = "<tr><td colspan='3'>No data found</td></tr>";
+        }
+    })
+    .catch(error => console.error("Error:", error));
+}
+    </script>
 </body>
 </html>

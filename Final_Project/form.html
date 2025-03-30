@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,7 +24,7 @@
             --light: #f8fafc;
             --lighter: #ffffff;
             --gray: #94a3b8;
-            
+
             /* Component colors */
             --bg: var(--darker);
             --card-bg: rgba(15, 23, 42, 0.7);
@@ -79,17 +80,32 @@
 
         /* Simple fade-in animation */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .animate-in {
             animation: fadeIn 0.8s ease-out forwards;
         }
 
-        .animate-delay-1 { animation-delay: 0.1s; }
-        .animate-delay-2 { animation-delay: 0.2s; }
-        .animate-delay-3 { animation-delay: 0.3s; }
+        .animate-delay-1 {
+            animation-delay: 0.1s;
+        }
+
+        .animate-delay-2 {
+            animation-delay: 0.2s;
+        }
+
+        .animate-delay-3 {
+            animation-delay: 0.3s;
+        }
 
         /* Gradient text */
         .gradient-text {
@@ -98,8 +114,76 @@
             background-clip: text;
             color: transparent;
         }
+
+        /* AI Generate Button Styles */
+        .ai-generate-btn {
+            background: rgba(124, 58, 237, 0.2);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-left: 0.5rem;
+        }
+
+        .ai-generate-btn:hover {
+            background: rgba(124, 58, 237, 0.3);
+        }
+
+        .ai-generate-btn i {
+            margin-right: 0.25rem;
+        }
+
+        .ai-loading {
+            position: relative;
+            pointer-events: none;
+        }
+
+        .ai-loading::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 11px;
+            z-index: 10;
+        }
+
+        .ai-loading::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--primary);
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            z-index: 11;
+        }
+
+        @keyframes spin {
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        /* Timer styles */
+        .timer {
+            color: var(--accent);
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+            display: none;
+        }
     </style>
 </head>
+
 <body class="min-h-screen flex items-center justify-center p-4">
     <div class="w-full max-w-4xl mx-auto">
         <div class="card p-8 mb-8 animate-in">
@@ -117,44 +201,52 @@
                         <i class="fas fa-user-circle mr-2" style="color: var(--primary)"></i>
                         Basic Information
                     </h2>
-                    
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium mb-1">Full Name</label>
-                            <input type="text" id="name" name="name" required 
+                            <input type="text" id="name" name="name" required
                                 class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow">
                         </div>
                         <div>
                             <label class="block text-sm font-medium mb-1">Greeting Text</label>
-                            <input type="text" id="greeting" name="greeting" value="Hi, my name is" required 
+                            <input type="text" id="greeting" name="greeting" value="Hi, my name is" required
                                 class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow">
                         </div>
                         <div>
                             <label class="block text-sm font-medium mb-1">Tagline</label>
-                            <input type="text" id="tagline" name="tagline" value="I build things for the web." required 
+                            <input type="text" id="tagline" name="tagline" value="I build things for the web." required
                                 class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow">
                         </div>
                         <div>
                             <label class="block text-sm font-medium mb-1">Current Company</label>
-                            <input type="text" id="companyName" name="companyName" placeholder="Company Name" 
+                            <input type="text" id="companyName" name="companyName" placeholder="Company Name"
                                 class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow">
                         </div>
                         <div>
                             <label class="block text-sm font-medium mb-1">Company URL</label>
-                            <input type="url" id="companyUrl" name="companyUrl" placeholder="https://example.com" 
+                            <input type="url" id="companyUrl" name="companyUrl" placeholder="https://example.com"
                                 class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow">
                         </div>
                         <div>
                             <label class="block text-sm font-medium mb-1">CTA Button Text</label>
-                            <input type="text" id="ctaText" name="ctaText" value="Learn More" 
+                            <input type="text" id="ctaText" name="ctaText" value="Learn More"
                                 class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow">
                         </div>
                     </div>
-                    
-                    <div class="mt-4">
-                        <label class="block text-sm font-medium mb-1">Introduction Paragraph</label>
+
+                    <div class="mt-4 relative">
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="block text-sm font-medium">Introduction Paragraph</label>
+                            <button type="button"
+                                onclick="generateWithAI('intro', 'Write a professional introduction paragraph for a portfolio')"
+                                class="ai-generate-btn">
+                                <i class="fas fa-magic"></i> Generate with AI
+                            </button>
+                        </div>
                         <textarea id="intro" name="intro" rows="3" required
                             class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow">I'm a software engineer specializing in building (and occasionally designing) exceptional digital experiences. Currently, I'm focused on building accessible, human-centered products at Company Name.</textarea>
+                        <span id="intro-timer" class="timer"></span>
                     </div>
                 </div>
 
@@ -164,25 +256,43 @@
                         <i class="fas fa-info-circle mr-2" style="color: var(--secondary)"></i>
                         About Section
                     </h2>
-                    
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium mb-1">About Paragraph 1</label>
+
+                    <div class="mb-4 relative">
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="block text-sm font-medium">About Paragraph 1</label>
+                            <button type="button"
+                                onclick="generateWithAI('about1', 'Write the first paragraph of an about section for a portfolio')"
+                                class="ai-generate-btn">
+
+                                <i class="fas fa-magic"></i> Generate with AI
+                            </button>
+                        </div>
                         <textarea id="about1" name="about1" rows="3" required
                             class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow">Hello! My name is [Your Name] and I enjoy creating things that live on the internet. My interest in web development started back in 2012 when I decided to try editing custom Tumblr themes — turns out hacking together a custom reblog button taught me a lot about HTML & CSS!</textarea>
+                        <span id="about1-timer" class="timer"></span>
                     </div>
-                    
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium mb-1">About Paragraph 2</label>
+
+                    <div class="mb-4 relative">
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="block text-sm font-medium">About Paragraph 2</label>
+                            <button type="button"
+                                onclick="generateWithAI('about2', 'Write the second paragraph of an about section for a portfolio')"
+                                class="ai-generate-btn">
+                                <i class="fas fa-magic"></i> Generate with AI
+                            </button>
+                        </div>
                         <textarea id="about2" name="about2" rows="3" required
                             class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow">Fast-forward to today, and I've had the privilege of working at an advertising agency, a start-up, a huge corporation, and a student-led design studio. My main focus these days is building accessible, inclusive products and digital experiences at [Company Name] for a variety of clients.</textarea>
+                        <span id="about2-timer" class="timer"></span>
                     </div>
-                    
+
                     <div class="mb-4">
                         <label class="block text-sm font-medium mb-1">Skills (comma separated)</label>
                         <div class="flex">
-                            <input type="text" id="skillsInput" placeholder="JavaScript, React, Node.js" 
+                            <input type="text" id="skillsInput" placeholder="JavaScript, React, Node.js"
                                 class="flex-1 px-4 py-2 rounded-l-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow">
-                            <button type="button" id="addSkillBtn" class="px-4 bg-slate-700 rounded-r-lg hover:bg-slate-600 transition">
+                            <button type="button" id="addSkillBtn"
+                                class="px-4 bg-slate-700 rounded-r-lg hover:bg-slate-600 transition">
                                 <i class="fas fa-plus"></i>
                             </button>
                         </div>
@@ -190,10 +300,11 @@
                             <!-- Skills will be added here -->
                         </div>
                     </div>
-                    
+
                     <div>
                         <label class="block text-sm font-medium mb-1">Profile Image URL</label>
-                        <input type="url" id="profileImage" name="profileImage" placeholder="https://example.com/profile.jpg" required
+                        <input type="url" id="profileImage" name="profileImage" 
+                            placeholder="https://example.com/profile.jpg" required
                             class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow">
                     </div>
                 </div>
@@ -204,12 +315,13 @@
                         <i class="fas fa-code-branch mr-2" style="color: var(--accent)"></i>
                         Projects Section (Max 3 Projects)
                     </h2>
-                    
+
                     <div id="projectsContainer">
                         <!-- Project fields will be added here -->
                     </div>
-                    
-                    <button type="button" id="addProjectBtn" class="w-full py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition mt-4">
+
+                    <button type="button" id="addProjectBtn"
+                        class="w-full py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition mt-4">
                         <i class="fas fa-plus mr-2"></i> Add Project
                     </button>
                 </div>
@@ -220,64 +332,75 @@
                         <i class="fas fa-envelope mr-2" style="color: var(--primary)"></i>
                         Contact & Social Links
                     </h2>
-                    
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium mb-1">Contact Text</label>
+                        <div class="relative">
+                            <div class="flex justify-between items-center mb-1">
+                                <label class="block text-sm font-medium">Contact Text</label>
+                                <button type="button"
+                                    onclick="generateWithAI('contactText', 'Write a professional contact section text for a portfolio')"
+                                    class="ai-generate-btn">
+                                    <i class="fas fa-magic"></i> Generate with AI
+                                </button>
+                            </div>
                             <textarea id="contactText" name="contactText" rows="3" required
                                 class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow">Although I'm not currently looking for any new opportunities, my inbox is always open. Whether you have a question or just want to say hi, I'll try my best to get back to you!</textarea>
+                            <span id="contactText-timer" class="timer"></span>
                         </div>
                         <div>
                             <label class="block text-sm font-medium mb-1">Email Address</label>
-                            <input type="email" id="email" name="email" placeholder="hello@example.com" required 
+                            <input type="email" id="email" name="email" placeholder="hello@example.com" required
                                 class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow">
                         </div>
                     </div>
-                    
+
                     <div class="mt-4">
                         <label class="block text-sm font-medium mb-1">Social Links</label>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs font-medium mb-1">GitHub</label>
-                                <input type="url" id="github" name="github" placeholder="https://github.com/username" 
+                                <input type="url" id="github" name="github" placeholder="https://github.com/username"
                                     class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow">
                             </div>
                             <div>
                                 <label class="block text-xs font-medium mb-1">Twitter</label>
-                                <input type="url" id="twitter" name="twitter" placeholder="https://twitter.com/username" 
+                                <input type="url" id="twitter" name="twitter" placeholder="https://twitter.com/username"
                                     class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow">
                             </div>
                             <div>
                                 <label class="block text-xs font-medium mb-1">LinkedIn</label>
-                                <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/username" 
+                                <input type="url" id="linkedin" name="linkedin"
+                                    placeholder="https://linkedin.com/in/username"
                                     class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow">
                             </div>
                             <div>
                                 <label class="block text-xs font-medium mb-1">Instagram</label>
-                                <input type="url" id="instagram" name="instagram" placeholder="https://instagram.com/username" 
+                                <input type="url" id="instagram" name="instagram"
+                                    placeholder="https://instagram.com/username"
                                     class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow">
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="mt-4">
                         <label class="block text-sm font-medium mb-1">Resume URL</label>
-                        <input type="url" id="resumeUrl" name="resumeUrl" placeholder="https://example.com/resume.pdf" 
+                        <input type="url" id="resumeUrl" name="resumeUrl" placeholder="https://example.com/resume.pdf"
                             class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow">
                     </div>
-                    
+
                     <div class="mt-4">
                         <label class="block text-sm font-medium mb-1">Footer Text</label>
-                        <input type="text" id="footerText" name="footerText" value="Designed & Built by [Your Name]" 
+                        <input type="text" id="footerText" name="footerText" value="Designed & Built by [Your Name]"
                             class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow">
                     </div>
                 </div>
 
                 <div class="flex flex-col sm:flex-row gap-4">
-                    <button type="submit" class="btn-primary py-3 px-6 rounded-lg font-medium flex-1">
+                    <button type="submit" class="btn-primary py-3 px-6 rounded-lg font-medium flex-1 lasti">
                         <i class="fas fa-code mr-2"></i> Generate Portfolio Config
                     </button>
-                    <button type="button" id="resetBtn" class="py-3 px-6 rounded-lg font-medium bg-slate-800 hover:bg-slate-700 transition flex-1">
+                    <button type="button" id="resetBtn"
+                        class="py-3 px-6 rounded-lg font-medium bg-slate-800 hover:bg-slate-700 transition flex-1">
                         <i class="fas fa-redo mr-2"></i> Reset Form
                     </button>
                 </div>
@@ -285,191 +408,397 @@
         </div>
     </div>
 
-    <script src="form_script.js">
-       let obj={};
-document.addEventListener('DOMContentLoaded', function() {
-    // Skills management
-    const skillsInput = document.getElementById('skillsInput');
-    const addSkillBtn = document.getElementById('addSkillBtn');
-    const skillsContainer = document.getElementById('skillsContainer');
-    
-    addSkillBtn.addEventListener('click', function() {
-        const skills = skillsInput.value.split(',').map(skill => skill.trim()).filter(skill => skill);
-        
-        skills.forEach(skill => {
-            const skillTag = document.createElement('div');
-            skillTag.className = 'skill-tag px-3 py-1 rounded-full text-xs font-medium flex items-center';
-            skillTag.innerHTML = `
-                ${skill}
-                <button type="button" class="ml-2 text-xs" onclick="this.parentElement.remove()">
-                    <i class="fas fa-times"></i>
-                </button>
-            `;
-            skillsContainer.appendChild(skillTag);
-        });
-        
-        skillsInput.value = '';
-    });
+    <script>
+        let obj = {};
+        let timerInterval;
+        let seconds = 0;
+        const API = "https://script.google.com/macros/s/AKfycbzfIOfDTkivsIHWBvQQfg6RJiziyFmWy7Psr1fqq3N4evUBAa8a31hxIYl6_PpI4_nI/exec";
 
-    // Projects management (limited to 3 projects)
-    const projectsContainer = document.getElementById('projectsContainer');
-    const addProjectBtn = document.getElementById('addProjectBtn');
-    let projectCount = 0;
-    const MAX_PROJECTS = 3;
-    
-    function addProjectField() {
-        if (projectCount >= MAX_PROJECTS) {
-            alert(`Maximum of ${MAX_PROJECTS} projects allowed`);
-            return;
-        }
-        
-        projectCount++;
-        const projectDiv = document.createElement('div');
-        projectDiv.className = 'card p-4 mb-4 project-field';
-        projectDiv.innerHTML = `
-            <div class="flex justify-between items-center mb-2">
-                <h3 class="font-medium">Project ${projectCount}</h3>
-                <button type="button" class="text-red-400 hover:text-red-300 remove-project">
-                    <i class="fas fa-trash"></i>
-                </button>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-xs font-medium mb-1">Title</label>
-                    <input type="text" name="projectTitle" required 
-                        class="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow">
-                </div>
-                <div>
-                    <label class="block text-xs font-medium mb-1">Image URL</label>
-                    <input type="url" name="projectImage" placeholder="https://example.com/image.jpg" required
-                        class="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow">
-                </div>
-            </div>
-            <div class="mt-2">
-                <label class="block text-xs font-medium mb-1">Description</label>
-                <textarea name="projectDesc" rows="2" required
-                    class="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow"></textarea>
-            </div>
-            <div class="mt-2">
-                <label class="block text-xs font-medium mb-1">Technologies (comma separated)</label>
-                <input type="text" name="projectTech" placeholder="React, Node.js, MongoDB" required
-                    class="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow">
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                <div>
-                    <label class="block text-xs font-medium mb-1">GitHub URL</label>
-                    <input type="url" name="projectGithub" placeholder="https://github.com/username/project" 
-                        class="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow">
-                </div>
-                <div>
-                    <label class="block text-xs font-medium mb-1">Live URL</label>
-                    <input type="url" name="projectLive" placeholder="https://example.com" 
-                        class="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow">
-                </div>
-            </div>
-        `;
-        projectsContainer.appendChild(projectDiv);
-        
-        // Add event listener to the remove button
-        projectDiv.querySelector('.remove-project').addEventListener('click', function() {
-            projectDiv.remove();
-            projectCount--;
-        });
-    }
-    
-    addProjectBtn.addEventListener('click', addProjectField);
-    
-    // Add one project field by default
-    addProjectField();
+        document.addEventListener('DOMContentLoaded', function () {
+            // Skills management
+            const skillsInput = document.getElementById('skillsInput');
+            const addSkillBtn = document.getElementById('addSkillBtn');
+            const skillsContainer = document.getElementById('skillsContainer');
 
-    // Form submission
-    const portfolioForm = document.getElementById('portfolioForm');
-    
-    portfolioForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Collect skills
-        const skills = [];
-        document.querySelectorAll('.skill-tag').forEach(tag => {
-            skills.push(tag.textContent.trim().replace('×', '').trim());
-        });
-        
-        // Collect projects
-        const projects = [];
-        document.querySelectorAll('.project-field').forEach(project => {
-            projects.push({
-                title: project.querySelector('input[name="projectTitle"]').value,
-                description: project.querySelector('textarea[name="projectDesc"]').value,
-                technologies: project.querySelector('input[name="projectTech"]').value.split(',').map(tech => tech.trim()),
-                image: project.querySelector('input[name="projectImage"]').value,
-                githubUrl: project.querySelector('input[name="projectGithub"]').value,
-                liveUrl: project.querySelector('input[name="projectLive"]').value
+            addSkillBtn.addEventListener('click', function () {
+                const skills = skillsInput.value.split(',').map(skill => skill.trim()).filter(skill => skill);
+
+                skills.forEach(skill => {
+                    const skillTag = document.createElement('div');
+                    skillTag.className = 'skill-tag px-3 py-1 rounded-full text-xs font-medium flex items-center';
+                    skillTag.innerHTML = `
+                        ${skill}
+                        <button type="button" class="ml-2 text-xs" onclick="this.parentElement.remove()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    skillsContainer.appendChild(skillTag);
+                });
+
+                skillsInput.value = '';
+            });
+
+            // Projects management (limited to 3 projects)
+            const projectsContainer = document.getElementById('projectsContainer');
+            const addProjectBtn = document.getElementById('addProjectBtn');
+            let projectCount = 0;
+            const MAX_PROJECTS = 3;
+
+            function addProjectField() {
+                if (projectCount >= MAX_PROJECTS) {
+                    alert(`Maximum of ${MAX_PROJECTS} projects allowed`);
+                    return;
+                }
+
+                projectCount++;
+                const projectDiv = document.createElement('div');
+                projectDiv.className = 'card p-4 mb-4 project-field';
+                projectDiv.innerHTML = `
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="font-medium">Project ${projectCount}</h3>
+                        <button type="button" class="text-red-400 hover:text-red-300 remove-project">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium mb-1">Title</label>
+                            <input type="text" name="projectTitle" required 
+                                class="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium mb-1">Image URL</label>
+                            <input type="url" name="projectImage" placeholder="https://example.com/image.jpg" required
+                                class="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow">
+                        </div>
+                    </div>
+                    <div class="mt-2 relative">
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="block text-xs font-medium">Description</label>
+                           
+                        </div>
+                        <textarea name="projectDesc" rows="2" required
+                            class="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow"></textarea>
+                        <span class="timer project-timer"></span>
+                    </div>
+                    <div class="mt-2">
+                        <label class="block text-xs font-medium mb-1">Technologies (comma separated)</label>
+                        <input type="text" name="projectTech" placeholder="React, Node.js, MongoDB" required
+                            class="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow">
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                        <div>
+                            <label class="block text-xs font-medium mb-1">GitHub URL</label>
+                            <input type="url" name="projectGithub" placeholder="https://github.com/username/project" 
+                                class="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium mb-1">Live URL</label>
+                            <input type="url" name="projectLive" placeholder="https://example.com" 
+                                class="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none input-glow">
+                        </div>
+                    </div>
+                `;
+                projectsContainer.appendChild(projectDiv);
+
+                // Add event listener to the remove button
+                projectDiv.querySelector('.remove-project').addEventListener('click', function () {
+                    projectDiv.remove();
+                    projectCount--;
+                });
+            }
+
+            addProjectBtn.addEventListener('click', addProjectField);
+
+            // Add one project field by default
+            addProjectField();
+
+            // Form submission
+            const portfolioForm = document.getElementById('portfolioForm');
+
+            portfolioForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                // Collect skills
+                const skills = [];
+                document.querySelectorAll('.skill-tag').forEach(tag => {
+                    skills.push(tag.textContent.trim().replace('×', '').trim());
+                });
+
+                // Collect projects
+                const projects = [];
+                document.querySelectorAll('.project-field').forEach(project => {
+                    projects.push({
+                        title: project.querySelector('input[name="projectTitle"]').value,
+                        description: project.querySelector('textarea[name="projectDesc"]').value,
+                        technologies: project.querySelector('input[name="projectTech"]').value.split(',').map(tech => tech.trim()),
+                        image: project.querySelector('input[name="projectImage"]').value,
+                        githubUrl: project.querySelector('input[name="projectGithub"]').value,
+                        liveUrl: project.querySelector('input[name="projectLive"]').value
+                    });
+                });
+
+                // Create config object
+                const config = {
+                    // Basic Information
+                    name: document.getElementById('name').value,
+                    greeting: document.getElementById('greeting').value,
+                    tagline: document.getElementById('tagline').value,
+                    intro: document.getElementById('intro').value,
+                    company: {
+                        name: document.getElementById('companyName').value,
+                        url: document.getElementById('companyUrl').value
+                    },
+                    ctaText: document.getElementById('ctaText').value,
+
+                    // About Section
+                    aboutParagraphs: [
+                        document.getElementById('about1').value,
+                        document.getElementById('about2').value
+                    ],
+                    skills: skills,
+                    profileImage: document.getElementById('profileImage').value,
+
+                    // Projects Section
+                    projects: projects,
+
+                    // Contact Section
+                    contactText: document.getElementById('contactText').value,
+                    email: document.getElementById('email').value,
+
+                    // Social Links
+                    socialLinks: {
+                        github: document.getElementById('github').value,
+                        twitter: document.getElementById('twitter').value,
+                        linkedin: document.getElementById('linkedin').value,
+                        instagram: document.getElementById('instagram').value
+                    },
+                    resumeUrl: document.getElementById('resumeUrl').value,
+                    footerText: document.getElementById('footerText').value,
+                    logoText: "Portfolio"
+                };
+
+                // Output to console instead of showing in modal
+                console.log("Portfolio Configuration:", config);
+                obj = config;
+
+                // You can uncomment this to redirect to the portfolio page
+                // window.open("portfolio_1.html")
+            });
+
+            // Reset form
+            document.getElementById('resetBtn').addEventListener('click', function () {
+                if (confirm('Are you sure you want to reset the form? All your data will be lost.')) {
+                    portfolioForm.reset();
+                    skillsContainer.innerHTML = '';
+                    projectsContainer.innerHTML = '';
+                    projectCount = 0;
+                    addProjectField();
+                }
             });
         });
-        
-        // Create config object
-        const config = {
-            // Basic Information
-            name: document.getElementById('name').value,
-            greeting: document.getElementById('greeting').value,
-            tagline: document.getElementById('tagline').value,
-            intro: document.getElementById('intro').value,
-            company: {
-                name: document.getElementById('companyName').value,
-                url: document.getElementById('companyUrl').value
-            },
-            ctaText: document.getElementById('ctaText').value,
-            
-            // About Section
-            aboutParagraphs: [
-                document.getElementById('about1').value,
-                document.getElementById('about2').value
-            ],
-            skills: skills,
-            profileImage: document.getElementById('profileImage').value,
-            
-            // Projects Section
-            projects: projects,
-            
-            // Contact Section
-            contactText: document.getElementById('contactText').value,
-            email: document.getElementById('email').value,
-            
-            // Social Links
-            socialLinks: {
-                github: document.getElementById('github').value,
-                twitter: document.getElementById('twitter').value,
-                linkedin: document.getElementById('linkedin').value,
-                instagram: document.getElementById('instagram').value
-            },
-            resumeUrl: document.getElementById('resumeUrl').value,
-            footerText: document.getElementById('footerText').value,
-            logoText: "Portfolio"
-        };
-        
-        // Output to console instead of showing in modal
-        console.log("Portfolio Configuration:", config);
-        // return config;
-        obj=config
-        // window.open("portfolio_1.html")
-        // alert("Portfolio configuration has been logged to console. Check your browser's developer tools (F12) to view the object.");
-    });
-    
-    
-    // Reset form
-    document.getElementById('resetBtn').addEventListener('click', function() {
-        if (confirm('Are you sure you want to reset the form? All your data will be lost.')) {
-            portfolioForm.reset();
-            skillsContainer.innerHTML = '';
-            projectsContainer.innerHTML = '';
-            projectCount = 0;
-            addProjectField();
+
+        // AI Generation Functions
+        function startTimer(elementId) {
+            const timerElement = document.getElementById(elementId);
+            timerElement.style.display = 'inline';
+            seconds = 0;
+
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                seconds++;
+                timerElement.textContent = `${seconds}s`;
+            }, 1000);
         }
-    });
-});
-function show(){
-        console.log(obj)
+
+        function stopTimer(elementId) {
+            clearInterval(timerInterval);
+            const timerElement = document.getElementById(elementId);
+            if (timerElement) {
+                timerElement.style.display = 'none';
+            }
+        }
+
+        async function generateWithAI(fieldId, promptText) {
+            const field = document.getElementById(fieldId);
+            const timerId = `${fieldId}-timer`;
+
+            // Add loading class
+            field.classList.add('ai-loading');
+            startTimer(timerId);
+
+            try {
+                const response = await fetch("https://api-inference.huggingface.co/models/tiiuae/falcon-7b-instruct", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": "Bearer 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",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        inputs: ` "${promptText}"`
+                    })
+                });
+
+                const data = await response.json();
+                console.log("API Response:", data);
+
+                if (data && Array.isArray(data) && data.length > 0 && data[0].generated_text) {
+                    field.value = data[0].generated_text;
+                } else {
+                    alert("Error: Could not generate text. Please try again.");
+                }
+            } catch (error) {
+                console.error("Error fetching API:", error);
+                alert("Error: Check console for details.");
+            } finally {
+                field.classList.remove('ai-loading');
+                stopTimer(timerId);
+            }
+        }
+
+        async function generateProjectDescription(buttonElement) {
+            const projectField = buttonElement.closest('.project-field');
+            const descField = projectField.querySelector('textarea[name="projectDesc"]');
+            const titleField = projectField.querySelector('input[name="projectTitle"]');
+            const techField = projectField.querySelector('input[name="projectTech"]');
+
+            const projectTitle = titleField.value || "a web application";
+            const projectTech = techField.value || "modern technologies";
+
+            // Add loading class to the specific project
+            descField.classList.add('ai-loading');
+            const timerElement = projectField.querySelector('.project-timer');
+            timerElement.style.display = 'inline';
+            startTimer('project-timer');
+
+            try {
+                const response = await fetch("https://api-inference.huggingface.co/models/tiiuae/falcon-7b-instruct", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": "Bearer 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",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        inputs: ` ${projectTitle} built with ${projectTech}. .`
+                    })
+                });
+
+                const data = await response.json();
+                console.log("API Response:", data);
+
+                if (data && Array.isArray(data) && data.length > 0 && data[0].generated_text) {
+
+
+                    descField.value = data[0].generated_text;
+                } else {
+                    alert("Error: Could not generate description. Please try again.");
+                }
+            } catch (error) {
+                console.error("Error fetching API:", error);
+                alert("Error: Check console for details.");
+            } finally {
+                descField.classList.remove('ai-loading');
+                timerElement.style.display = 'none';
+                stopTimer('project-timer');
+            }
+        }
+        // Replace this in your existing script
+        portfolioForm.addEventListener('submit', async function (e) {
+           
+            
+            e.preventDefault();
+
+            // Collect only essential data
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                socialLinks: {
+                    github: document.getElementById('github').value,
+                    twitter: document.getElementById('twitter').value,
+                    linkedin: document.getElementById('linkedin').value,
+                    instagram: document.getElementById('instagram').value
+                },
+                resumeUrl: document.getElementById('resumeUrl').value
+            };
+
+            try {
+                const submitBtn = e.target.querySelector('button[type="submit"]');
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Saving...';
+
+                const response = await fetch('https://script.google.com/macros/s/AKfycbypA28RmWZ-WD71KmR2YciqaREsg3GpKPKhRb7soqyMv-AiSiZQwFELngA2-k-lb9UE/exec', {
+                    method: "POST",
+                    body: JSON.stringify(formData),
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                });
+
+                const result = await response.json();
+
+                if (result.status === "success") {
+                    alert("Data saved successfully!");
+                } else {
+                    alert("Error: " + result.message);
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Error saving data");
+            } finally {
+                const submitBtn = e.target.querySelector('button[type="submit"]');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-code mr-2"></i> Save Data';
+            }
+            
+            
+            
+        });
+        function show() {
+            console.log(obj);
+        }
+
+        // Adding Data to DataBase
+        let url = "https://script.google.com/macros/s/AKfycbzfIOfDTkivsIHWBvQQfg6RJiziyFmWy7Psr1fqq3N4evUBAa8a31hxIYl6_PpI4_nI/exec";
+       
+        // console.log(document.querySelector("#imgurl"))
+
+function addData(name,email,imageUrl) {
+   
+
+    if (!name || !email || !imageUrl) {
+        alert("All fields are required!");
+        return;
     }
+
+    const formData = new FormData();
+    formData.append("action", "addData");
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("imageUrl", imageUrl);
+
+    fetch(url, {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        document.getElementById("name").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("imageUrl").value = "";
+    })
+    .catch(error => console.error("Error:", error));
+}
+ 
+document.querySelector(".lasti").addEventListener("click",()=>{
+    let d1=document.querySelector("#name").value
+    let d2=document.querySelector("#email").value
+    let d3=document.querySelector("#profileImage").value
+    addData(d1,d2,d3)
+    console.log("here")
+})
+
     </script>
 </body>
+
 </html>

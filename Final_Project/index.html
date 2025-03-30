@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Showcase</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #2563eb;
+            --accent: #ffffff;
+            --light: #ffffff;
+            --dark: #311911;
+            --gray: #ffffff;
+            --border: #ffffff;
+            --faltu: #d9d4c1;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .section-title{
+            color: var(--dark);
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-color: var(--faltu);
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            /* background-color: rgba(255, 255, 255, 0.95); */
+            /* background-color: var(--light); */
+            /* background-color: black; */
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            /* align-items: center; */
+            padding: 1rem 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background-color: var(--faltu);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            /* color: var(--primary); */
+            /* color: black; */
+            color: var(--dark);
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: var(--dark);
+            /* color: black; */
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* Full-screen Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 2rem;
+            position: relative;
+        }
+        
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            padding-top: 5rem;
+        }
+        
+        .hero-title {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            max-width: 800px;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.25rem;
+            /* color: var(--gray); */
+            color:var(--dark);
+            max-width: 600px;
+            margin-bottom: 2.5rem;
+        }
+        
+        .hero-button {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+        
+        .hero-button:hover {
+            transform: translateY(-3px);
+        }
+        
+        /* Portfolio Showcase */
+        .showcase {
+            padding: 6rem 2rem;
+            background-color: white;
+        }
+        
+        .section-title {
+            margin-bottom: 4rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .section-title p {
+            color: var(--dark);
+            max-width: 600px;
+        }
+        
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .portfolio-card {
+            /* background: var(--light); */
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+        }
+        
+        .portfolio-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-image {
+            height: 220px;
+            overflow: hidden;
+        }
+        
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .portfolio-card:hover .card-image img {
+            transform: scale(1.05);
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .card-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-content p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--faltu);
+            color: white;
+            padding: 4rem 2rem 2rem;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-col h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+        
+        .footer-col p {
+            color: #94a3b8;
+            margin-bottom: 1rem;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-links a {
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--primary);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 3rem;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            font-size: 0.875rem;
+        }
+        .probl{
+            color: var(--dark);
+            color: black;
+        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero {
+                padding-top: 6rem;
+            }
+            
+            .hero-content {
+                
+                text-align: center;
+            }
+            
+            .hero-title,
+            .hero-subtitle {
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+        #showcase{
+            background-color: var(--faltu);
+        }
+        .svg{
+            height: 60px;
+            width: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center;
+            transform: translateY(15px);
+        }
+        .footer-col h3{
+            color: var(--dark);
+        }
+        .card-content p{
+            color: var(--dark);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <img src="WhatsApp Image 2025-03-29 at 15.06.50.jpeg.jpg" alt="12" class="svg">
+                YourFolio</a>
+            <ul class="nav-links">
+                <li><a href="templates.html">Templates</a></li>
+                <li><a href="pricing.html">Pricing</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li class="toggle" ><i class="fa-solid fa-moon"></i></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Full-screen Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Create Your Perfect Portfolio</h1>
+            <p class="hero-subtitle">
+                Stunning, professional templates designed to showcase your work in the best light.
+                Get started in minutes with our easy-to-use portfolio builder.
+            </p>
+            <a href="template_page.html" class="hero-button" >View Templates</a>
+        </div>
+    </section>
+
+    <!-- Portfolio Showcase -->
+    <section class="showcase" id="showcase">
+        <div class="section-title">
+            <h2>Featured Templates</h2>
+            <p class="probl" >Choose from our collection of professionally designed portfolio templates</p>
+        </div>
+        <div class="portfolio-grid">
+            <!-- Template 1 -->
+            <div class="portfolio-card">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="Minimal Portfolio">
+                </div>
+                <div class="card-content">
+                    <h3>Minimal</h3>
+                    <p>A clean, minimalist design that puts your work front and center.</p>
+                    <a href="template_page.html" class="card-link"  >
+                        View Template
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Template l̥ō2 -->
+            <div class="portfolio-card">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80" alt="Dark Portfolio">
+                </div>
+                <div class="card-content">
+                    <h3>Dark Mode</h3>
+                    <p>A sleek dark theme that makes your content pop.</p>
+                    <a href="template_page.html" class="card-link"  >
+                        View Template
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Template 3 -->
+            <div class="portfolio-card">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Creative Portfolio">
+                </div>
+                <div class="card-content">
+                    <h3>Creative</h3>
+                    <p>An artistic layout with unique design elements.</p>
+                    <a href="template_page.html" class="card-link">
+                        View Template
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>Portfolio</h3>
+                <p  >Creating beautiful portfolios for creatives, developers, and professionals.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <a href="#" class="block text-slate-300 hover:text-white mb-2">Templates</a>
+                <br>
+                <!-- <a href="#" class="block text-slate-300 hover:text-white mb-2">Features</a> -->
+                <a href="#" class="block text-slate-300 hover:text-white mb-2">Examples</a>
+            </div>
+            <div class="footer-col">
+                <h3>Contact</h3>
+                <p><i class="fas fa-envelope mr-2"></i> yourfolio@gmai.com</p>
+                <p class="mt-2"><i class="fas fa-phone mr-2"></i> 992323-4567</p>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2023 Portfolio. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // GSAP Animations
+        document.addEventListener('DOMContentLoaded', () => {
+            // Register ScrollTrigger plugin
+            gsap.registerPlugin(ScrollTrigger);
+            
+            // Animate hero content
+            gsap.from('.hero-title', {
+                opacity: 0,
+                y: 50,
+                duration: 1,
+                ease: "power3.out"
+            });
+            
+            gsap.from('.hero-subtitle', {
+                opacity: 0,
+                y: 30,
+                duration: 1,
+                delay: 0.3,
+                ease: "power3.out"
+            });
+            
+            gsap.from('.hero-button', {
+                opacity: 0,
+                y: 30,
+                duration: 1,
+                delay: 0.6,
+                ease: "power3.out"
+            });
+            
+            // Animate portfolio cards
+            // gsap.from('.portfolio-card', {
+            //     opacity: 0,
+            //     y: 50,
+            //     duration: 0.8,
+            //     stagger: 0.2,
+            //     scrollTrigger: {
+            //         trigger: '.showcase',
+            //         start: "top 70%",
+            //         toggleActions: "play none none none"
+            //     },
+            //     ease: "back.out(1.2)"
+            // });
+            
+            // Navbar animation on scroll
+            gsap.to('nav', {
+                backgroundColor: 'var(--faltu)',
+                padding: '1rem 2rem',
+                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                scrollTrigger: {
+                    trigger: 'body',
+                    start: '50px top',
+                    end: '100px top',
+                    scrub: true
+                }
+            });
+        });
+        let spac=true
+        let i=document.querySelector(".toggle");
+        i.addEventListener("click",()=>{
+           
+            if(spac){
+                i.innerHTML=`<i class="fa-regular fa-sun"></i>`
+                
+                i.style.color="orange"
+                
+                document.documentElement.style.setProperty('--primary', '#d9d4c1');
+                document.documentElement.style.setProperty('--secondary', '#d9d4c1');
+                document.documentElement.style.setProperty('--accent', '#d9d4c1');
+                document.documentElement.style.setProperty('--light', 'black');
+                document.documentElement.style.setProperty('--dark', '#d9d4c1');
+                document.documentElement.style.setProperty('--gray', 'black');
+                document.documentElement.style.setProperty('--border', '#d9d4c1');
+                document.documentElement.style.setProperty('--faltu', 'black');
+                spac=false
+              
+              
+            }else{
+             i.innerHTML=`<i class="fa-solid fa-moon"></i>`
+                spac=true
+                 i.style.color="black"
+                document.documentElement.style.setProperty('--primary', '#2563eb');
+                document.documentElement.style.setProperty('--secondary', '#1e293b');
+                document.documentElement.style.setProperty('--accent', ' #14b8a6');
+                document.documentElement.style.setProperty('--light', '#ffffff');
+                document.documentElement.style.setProperty('--dark', '#0f172a');
+                document.documentElement.style.setProperty('--gray', '#64748b');
+                document.documentElement.style.setProperty('--border', '#e2e8f0');
+                document.documentElement.style.setProperty('--faltu', '#d9d4c1');
+            }
+
+        })
+        function view(){
+            document.wirte("helo")
+        }
+    </script>
+</body>
+</html>
