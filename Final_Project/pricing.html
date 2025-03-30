@@ -374,9 +374,9 @@
     <!-- Pricing Section -->
     <section class="pricing-section">
         <div class="pricing-tabs">
-            <div class="pricing-tab active" data-plan="monthly">Monthly</div>
-            <div class="pricing-tab" data-plan="yearly">Yearly (Save 20%)</div>
-            <div class="pricing-tab" data-plan="weekly">Weekly</div>
+            <!-- <div class="pricing-tab active" data-plan="monthly">Monthly</div> -->
+            <div class="pricing-tab" data-plan="yearly"><h2>Plans</h2></div>
+            <!-- <div class="pricing-tab" data-plan="weekly">Weekly</div> -->
         </div>
         
         <div class="pricing-grid">
@@ -384,19 +384,20 @@
             <div class="pricing-card">
                 <div class="pricing-card-header">
                     <h3 class="pricing-card-title">Basic</h3>
-                    <div class="pricing-card-price monthly">$9.99</div>
-                    <div class="pricing-card-price yearly" style="display: none;">$7.99</div>
-                    <div class="pricing-card-price weekly" style="display: none;">$2.99</div>
+                    <div class="pricing-card-price monthly">149</div>
+                    <div class="pricing-card-price yearly" style="display: none;">249</div>
+                    <div class="pricing-card-price weekly" style="display: none;">449</div>
                     <div class="pricing-card-period monthly">per month</div>
                     <div class="pricing-card-period yearly" style="display: none;">per year</div>
                     <div class="pricing-card-period weekly" style="display: none;">per week</div>
                 </div>
                 <div class="pricing-card-features">
                     <ul>
+
                         <li><i class="fas fa-check"></i> 1 Portfolio Template</li>
-                        <li><i class="fas fa-check"></i> Basic Customization</li>
+                        <li><i class="fas fa-check"></i>2 site collaborators </li>
                         <li><i class="fas fa-check"></i> 5 Project Showcases</li>
-                        <li><i class="fas fa-check"></i> Contact Form</li>
+                        <li><i class="fas fa-check"></i> 2 GB storage space</li>
                         <li><i class="fas fa-check"></i> Basic Analytics</li>
                     </ul>
                 </div>
@@ -408,7 +409,7 @@
                 <div class="popular-badge">Most Popular</div>
                 <div class="pricing-card-header">
                     <h3 class="pricing-card-title">Pro</h3>
-                    <div class="pricing-card-price monthly">$19.99</div>
+                    <div class="pricing-card-price monthly">349.99</div>
                     <div class="pricing-card-price yearly" style="display: none;">$15.99</div>
                     <div class="pricing-card-price weekly" style="display: none;">$4.99</div>
                     <div class="pricing-card-period monthly">per month</div>
@@ -417,10 +418,12 @@
                 </div>
                 <div class="pricing-card-features">
                     <ul>
+                        Free domain for 1 year
+
                         <li><i class="fas fa-check"></i> 5 Portfolio Templates</li>
                         <li><i class="fas fa-check"></i> Advanced Customization</li>
-                        <li><i class="fas fa-check"></i> Unlimited Projects</li>
-                        <li><i class="fas fa-check"></i> Contact Form + Blog</li>
+                        <li><i class="fas fa-check"></i> Accept payments</li>
+                        <li><i class="fas fa-check"></i> Basic eCommerce</li>
                         <li><i class="fas fa-check"></i> Advanced Analytics</li>
                         <li><i class="fas fa-check"></i> SEO Optimization</li>
                         <li><i class="fas fa-check"></i> Priority Support</li>
@@ -432,8 +435,11 @@
             <!-- Enterprise Plan -->
             <div class="pricing-card">
                 <div class="pricing-card-header">
+                    
+
+
                     <h3 class="pricing-card-title">Enterprise</h3>
-                    <div class="pricing-card-price monthly">$39.99</div>
+                    <div class="pricing-card-price monthly">549.99</div>
                     <div class="pricing-card-price yearly" style="display: none;">$31.99</div>
                     <div class="pricing-card-price weekly" style="display: none;">$9.99</div>
                     <div class="pricing-card-period monthly">per month</div>
@@ -442,13 +448,18 @@
                 </div>
                 <div class="pricing-card-features">
                     <ul>
+                        
+
+
+
+
                         <li><i class="fas fa-check"></i> All Pro Features</li>
                         <li><i class="fas fa-check"></i> Unlimited Templates</li>
                         <li><i class="fas fa-check"></i> Custom Domain</li>
                         <li><i class="fas fa-check"></i> E-commerce Integration</li>
-                        <li><i class="fas fa-check"></i> API Access</li>
-                        <li><i class="fas fa-check"></i> 24/7 Dedicated Support</li>
-                        <li><i class="fas fa-check"></i> White-label Options</li>
+                        <li><i class="fas fa-check"></i> 100 GB storage space</li>
+                        <li><i class="fas fa-check"></i> 10 site collaborators</li>
+                        <li><i class="fas fa-check"></i> Standard marketing suite</li>
                     </ul>
                 </div>
                 <button class="pricing-card-button secondary">Contact Sales</button>
@@ -493,34 +504,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const tabs = document.querySelectorAll('.pricing-tab');
             
-            tabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    // Remove active class from all tabs
-                    tabs.forEach(t => t.classList.remove('active'));
-                    
-                    // Add active class to clicked tab
-                    this.classList.add('active');
-                    
-                    // Get the plan type
-                    const plan = this.getAttribute('data-plan');
-                    
-                    // Hide all pricing periods
-                    document.querySelectorAll('.pricing-card-price').forEach(price => {
-                        price.style.display = 'none';
-                    });
-                    document.querySelectorAll('.pricing-card-period').forEach(period => {
-                        period.style.display = 'none';
-                    });
-                    
-                    // Show selected pricing period
-                    document.querySelectorAll(`.pricing-card-price.${plan}`).forEach(price => {
-                        price.style.display = 'block';
-                    });
-                    document.querySelectorAll(`.pricing-card-period.${plan}`).forEach(period => {
-                        period.style.display = 'block';
-                    });
-                });
-            });
+            
             
             // Dark/Light Mode Toggle
             const toggle = document.querySelector('.toggle');
